@@ -7,6 +7,7 @@ public class FollowWP : MonoBehaviour
     public GameObject[] wayPoints;
     int currentWP = 0;
     public float speed = 10.0f;
+    public float rotSpeed = 10f;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +25,9 @@ public class FollowWP : MonoBehaviour
         {
             currentWP = 0;
         }
-        transform.LookAt(wayPoints[currentWP].transform);
+        //transform.LookAt(wayPoints[currentWP].transform);
+        Quaternion lookatWP = Quaternion.LookRotation(wayPoints[currentWP].transform.position - transform.position);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookatWP, rotSpeed * Time.deltaTime);
         transform.Translate(0, 0, speed * Time.deltaTime);
     }
 }
